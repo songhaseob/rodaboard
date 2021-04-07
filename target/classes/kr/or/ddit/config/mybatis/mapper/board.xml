@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<!-- 게시판 전체조회 -->
+	<select id="selectBoard" resultType="board_infoVo">
+		SELECT * FROM board_info 
+	</select>
+	
+	<!-- 게시판 등록-->
+	<insert id="insertBoard" parameterType="board_infoVo">
+		INSERT INTO board_info(bor_no, bor_act, bor_name) VALUES((SELECT NVL(MAX(bor_no), 0)+1 FROM board_info), #{bor_act}, #{bor_name})
+	</insert>
+	
+	<!-- 활성화여부 -->
+	<update id="updateBoard" parameterType="board_infoVo">
+		UPDATE board_info SET bor_act = #{bor_act} WHERE bor_name = #{bor_name}
+	</update>
+	
+</mapper>

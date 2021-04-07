@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardrep">
+					
+	<!-- 게시글 등록 -->
+	<insert id="insertBorRep" parameterType="board_postVo">
+		INSERT INTO board_post(bor_no, post_no, user_id, title, cont, reg_dt, post_del, bor_c_nm, post_c_no, rep_user_id)
+				VALUES (#{bor_no},
+					 	(SELECT NVL(MAX(post_no),0)+1 FROM board_post),
+						#{user_id},
+					 	#{title},
+						#{cont},
+					 	sysdate,
+						1,
+						'','','')
+	</insert>
+
+	<!-- 상세조회 -->
+	<select id="boardDetail" parameterType="board_postVo" resultType="board_postVo">
+		SELECT * FROM board_post
+			WHERE bor_no = #{bor_no} AND post_no = #{post_no} AND user_id = #{user_id}
+	</select>
+
+
+	<!-- 답글 -->
+	<insert id="insertComm" parameterType="board_postVo">
+		INSERT INTO board_post(bor_no, post_no, user_id, title, cont, reg_dt, post_del, bor_c_nm, post_c_no, rep_user_id)
+				VALUES (#{bor_no},
+					 	(SELECT NVL(MAX(post_no),0)+1 FROM board_post),
+						#{user_id},
+					 	#{title},
+						#{cont},
+					 	sysdate,
+						1,
+						#{bor_c_nm},
+						#{post_c_no},
+						#{rep_user_id})
+	</insert>
+	
+	<select id="maxPostNo" resultType="int">
+		SELECT MAX(post_no) FROM board_post
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="modifyBoard" parameterType="board_postVo">
+		UPDATE board_post SET title = #{title}, cont = #{cont} 
+			WHERE post_no = #{post_no} AND bor_no = #{bor_no} AND user_id = #{user_id}
+	</update>
+
+	<!-- 게시글 삭제수정 -->
+	<update parameterType="board_postVo" id="modifydelBoard">
+		UPDATE board_post SET post_del = 0, title = '삭제된 게시글 입니다.' WHERE bor_no = #{bor_no} AND post_no = #{post_no} AND user_id = #{user_id} 
+	</update>
+	
+</mapper>

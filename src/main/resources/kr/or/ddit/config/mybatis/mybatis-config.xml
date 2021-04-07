@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="kr.or.ddit.user.model.UserVo" alias="userVo"/>
+		<typeAlias type="kr.or.ddit.board.model.Board_InfoVo" alias="board_infoVo"/>
+		<typeAlias type="kr.or.ddit.board.model.Board_PostVo" alias="board_postVo"/>
+<!-- 		<typeAlias type="kr.or.ddit.board.model.AttachVo" alias="attachVo"/> -->
+		<typeAlias type="kr.or.ddit.board.model.Post_ComVo" alias="post_comVo"/>
+		<typeAlias type="kr.or.ddit.common.model.PageVo" alias="pageVo"/>
+	</typeAliases>
+	
+  <mappers>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/users.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/board.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/boardpage.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/boardrep.xml"/>
+    <mapper resource="kr/or/ddit/config/mybatis/mapper/postcom.xml"/>
+  </mappers>
+</configuration>
